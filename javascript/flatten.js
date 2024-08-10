@@ -12,7 +12,7 @@
 function flatten(object) {
   const keys = [];
 
-  let result = {};
+  const result = {};
 
   function traverse(obj) {
     for (const key in obj) {

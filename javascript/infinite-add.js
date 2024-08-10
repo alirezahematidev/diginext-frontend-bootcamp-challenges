@@ -3,9 +3,7 @@
  * The result of the last call should be parsable as both number or string.
  * Use case: No use case. Just sth fun :)))))
  */
-function add() {
-  // TODO: Implement here
-}
+function add() {}
 
 // Call Examples
 // add(1, 2);
