@@ -10,7 +10,23 @@
  *
  */
 function flatten(object) {
-  // TODO: Implement here
+  const keys = [];
+
+  let result = {};
+
+  function traverse(obj) {
+    for (const key in obj) {
+      keys.push(key);
+
+      if (typeof obj[key] === "object") traverse(obj[key]);
+      else result[keys.join(".")] = obj[key];
+    }
+    keys.length = 0;
+  }
+
+  traverse(object);
+
+  return result;
 }
 
 /**
@@ -23,6 +39,4 @@ function flatten(object) {
  * @example revertFlatten({"a.b.c": "d"}) => {"a": {"b": {"c": "d"}}}
  *
  */
-function revertFlatten(object) {
-  // TODO: Implement here
-}
+function revertFlatten(object) {}
