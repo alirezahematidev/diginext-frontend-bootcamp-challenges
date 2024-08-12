@@ -1,30 +1,33 @@
-/**
- *
- * This function will get 2 objects and returns the changes in the format provided at the end of the file.
- * Use case: Git file diff
- *
- * @param {object} oldObject
- * @param {object} newObject
- *
- * @returns diff object.
- */
 function jsonDiff(oldObject, newObject) {
-  // TODO: Implement here
-}
+  for (const key in oldObject) {
+    if (key in newObject) {
+      if (oldObject[key] === newObject[key]) continue;
 
-// {
-//     "key1": {
-//         "type": "modified",
-//         "oldValue": "old value",
-//         "newValue": "new value"
-//     },
-//     "key 2": {
-//         "type": "added",
-//         "newValue": "new value"
-//     },
-//     "key 3": {
-//         "type": "removed",
-//         "oldValue": "old value"
-//     },
-//     ...
-// }
+      const oldValue = oldObject[key];
+
+      oldObject[key] = {
+        type: "modified",
+        oldValue,
+        newValue: newObject[key],
+      };
+    } else {
+      const oldValue = oldObject[key];
+
+      oldObject[key] = {
+        type: "removed",
+        oldValue,
+      };
+    }
+  }
+
+  for (const key in newObject) {
+    if (key in oldObject) continue;
+
+    oldObject[key] = {
+      type: "added",
+      newValue: newObject[key],
+    };
+  }
+
+  return oldObject;
+}

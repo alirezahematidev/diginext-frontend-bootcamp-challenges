@@ -8,7 +8,21 @@
  * @returns {function}
  */
 function throttle(callback, n, p) {
-  // TODO: Implement here
+  let timer = undefined;
+
+  let count = 0;
+
+  return (...args) => {
+    timer = setInterval(() => {
+      if (count <= n) callback(...args);
+
+      count += 1;
+
+      clearInterval(timer);
+    }, p);
+
+    if (timer) clearInterval(timer);
+  };
 }
 
 /**
