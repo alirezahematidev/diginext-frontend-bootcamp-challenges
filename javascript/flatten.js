@@ -7,7 +7,7 @@ function flatten(object) {
     for (const key in obj) {
       keys.push(key);
 
-      if (typeof obj[key] === "object") traverse(obj[key]);
+      if (typeof obj[key] === "object" && obj[key] !== null) traverse(obj[key]);
       else result[keys.join(".")] = obj[key];
     }
     keys.length = 0;
@@ -22,13 +22,11 @@ function revertFlatten(object) {
   let result = {};
 
   for (const key in object) {
-    if (key.includes(".")) {
-      const keys = key.split(".");
+    const keys = key.split(".");
 
-      const valueObject = keys.reduceRight((prev, curr) => ({ [curr]: prev }), object[key]);
+    const obj = keys.reduceRight((prev, curr) => ({ [curr]: prev }), object[key]);
 
-      result = { ...result, ...valueObject };
-    } else result[key] = object[key];
+    result = { ...result, ...obj };
   }
 
   return result;
