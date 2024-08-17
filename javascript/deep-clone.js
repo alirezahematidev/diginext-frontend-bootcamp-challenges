@@ -1,16 +1,14 @@
-function deepClone(arg, cache = new WeakMap()) {
-  if (arg === null || typeof arg !== "object") return arg;
+function deepClone(arg) {
+  if (typeof structuredClone !== "undefined") return structuredClone(arg);
 
-  if (cache.has(arg)) return cache.get(arg);
+  if (arg === null || typeof arg !== "object") return arg;
 
   if (Array.isArray(arg)) {
     const clonedArr = new Array();
 
     for (let i = 0; i < arg.length; i++) {
-      clonedArr.push(clone(arg[i], cache));
+      clonedArr.push(deepClone(arg[i]));
     }
-
-    cache.set(arg, clonedArr);
 
     return clonedArr;
   }
@@ -19,11 +17,9 @@ function deepClone(arg, cache = new WeakMap()) {
 
   for (const key in arg) {
     if (Object.prototype.hasOwnProperty.call(arg, key)) {
-      clonedObj[key] = clone(arg[key], cache);
+      clonedObj[key] = deepClone(arg[key]);
     }
   }
-
-  cache.set(arg, clonedObj);
 
   return clonedObj;
 }
